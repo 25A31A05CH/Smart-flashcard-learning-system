@@ -1,0 +1,94 @@
+﻿#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Flashcard {
+public:
+    string question;
+    string answer;
+
+    Flashcard(string q, string a) {
+        question = q;
+        answer = a;
+    }
+};
+
+int main() {
+    vector<Flashcard> flashcards;
+    int choice;
+
+    do {
+        cout << "\n===== Smart Flashcard Learning System =====\n";
+        cout << "1. Add Flashcard\n";
+        cout << "2. View Flashcards\n";
+        cout << "3. Start Quiz\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        if (choice == 1) {
+            string q, a;
+
+            cout << "Enter Question: ";
+            getline(cin, q);
+
+            cout << "Enter Answer: ";
+            getline(cin, a);
+
+            flashcards.push_back(Flashcard(q, a));
+            cout << "Flashcard Added Successfully!\n";
+        }
+        else if (choice == 2) {
+            if (flashcards.empty()) {
+                cout << "No flashcards available.\n";
+            } else {
+                cout << "\n--- Flashcards ---\n";
+                for (size_t i = 0; i < flashcards.size(); i++) {
+                    cout << i + 1 << ". " << flashcards[i].question
+                         << " -> " << flashcards[i].answer << endl;
+                }
+            }
+        }
+        else if (choice == 3) {
+            if (flashcards.empty()) {
+                cout << "No flashcards available for quiz.\n";
+            } else {
+                int score = 0;
+                string userAnswer;
+
+                cout << "\n--- Quiz Started ---\n";
+
+                for (size_t i = 0; i < flashcards.size(); i++) {
+                    cout << "\nQuestion " << i + 1 << ": "
+                         << flashcards[i].question << endl;
+
+                    cout << "Your Answer: ";
+                    getline(cin, userAnswer);
+
+                    if (userAnswer == flashcards[i].answer) {
+                        cout << "Correct!\n";
+                        score++;
+                    } else {
+                        cout << "Wrong! Correct Answer: "
+                             << flashcards[i].answer << endl;
+                    }
+                }
+
+                cout << "\nQuiz Completed!\n";
+                cout << "Score: " << score << "/" << flashcards.size() << endl;
+            }
+        }
+        else if (choice == 4) {
+            cout << "Exiting Program...\n";
+        }
+        else {
+            cout << "Invalid Choice!\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
